@@ -1,0 +1,1 @@
+rootProject.name = "com.bouyahya.crud-ktor-kotlin_server"
