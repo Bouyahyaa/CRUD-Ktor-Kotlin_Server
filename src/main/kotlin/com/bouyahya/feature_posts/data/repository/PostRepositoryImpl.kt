@@ -12,4 +12,8 @@ class PostRepositoryImpl(
     override suspend fun getPosts(): List<Post> {
         return posts.find().toList()
     }
+
+    override suspend fun createPost(post : Post): Boolean {
+        return posts.insertOne(post).wasAcknowledged()
+    }
 }

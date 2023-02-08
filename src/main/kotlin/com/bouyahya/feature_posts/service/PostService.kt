@@ -9,4 +9,8 @@ class PostService(
     suspend fun getPosts(): List<Post> {
         return postRepository.getPosts()
     }
+
+    suspend fun createPost(post: Post): Boolean {
+        return postRepository.createPost(post)
+    }
 }
