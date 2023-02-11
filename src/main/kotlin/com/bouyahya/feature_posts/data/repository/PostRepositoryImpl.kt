@@ -13,7 +13,11 @@ class PostRepositoryImpl(
         return posts.find().toList()
     }
 
-    override suspend fun createPost(post : Post): Boolean {
+    override suspend fun createPost(post: Post): Boolean {
         return posts.insertOne(post).wasAcknowledged()
+    }
+
+    override suspend fun deletePost(postId: String): Boolean {
+        return posts.deleteOneById(postId).wasAcknowledged()
     }
 }

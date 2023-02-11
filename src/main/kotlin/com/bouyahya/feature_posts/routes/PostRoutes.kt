@@ -63,5 +63,29 @@ fun Route.posts(
                 call.respond(HttpStatusCode.Conflict, "Post not created")
             }
         }
+
+
+        delete("/{id}") {
+            val postId = call.parameters["id"]
+
+            if (postId == null) {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    "id parameter has to be a number"
+                )
+
+                return@delete
+            }
+
+            val removed = postService.deletePost(postId)
+            if (removed) {
+                call.respond(HttpStatusCode.OK, "Post Deleted Successfully")
+            } else {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    "found no post with the id $postId"
+                )
+            }
+        }
     }
 }
