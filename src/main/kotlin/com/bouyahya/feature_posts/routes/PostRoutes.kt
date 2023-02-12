@@ -46,7 +46,7 @@ fun Route.posts(
                         name = fileName.substring(0, pos)
                         extension = fileName.substring(pos)
                         val date = System.currentTimeMillis() + 600000
-                        image = "http://192.168.1.19:8080/uploads/${name + date + extension}"
+                        image = "uploads/${name + date + extension}"
                         File("uploads/${name + date + extension}").writeBytes(fileBytes)
                     }
 
