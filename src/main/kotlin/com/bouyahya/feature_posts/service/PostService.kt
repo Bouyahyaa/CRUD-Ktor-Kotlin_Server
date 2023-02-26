@@ -14,6 +14,10 @@ class PostService(
         return postRepository.createPost(post)
     }
 
+    suspend fun updatePost(postId: String, postTitle: String, postImage: String): Boolean {
+        return postRepository.updatePost(postId, postTitle, postImage)
+    }
+
     suspend fun deletePost(postId: String): Boolean {
         return postRepository.deletePost(postId)
     }

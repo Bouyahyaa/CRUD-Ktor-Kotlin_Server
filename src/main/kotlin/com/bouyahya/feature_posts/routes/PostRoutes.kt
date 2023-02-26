@@ -65,6 +65,58 @@ fun Route.posts(
         }
 
 
+        put("/{id}") {
+            val postId = call.parameters["id"]
+            if (postId == null) {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    "id parameter has to be a number"
+                )
+
+                return@put
+            }
+
+            val multipartData = call.receiveMultipart()
+            var title = ""
+            var image = ""
+            var fileName = ""
+            var name = ""
+            var extension = ""
+
+            multipartData.forEachPart { part ->
+                when (part) {
+                    is PartData.FormItem -> {
+                        when (part.name) {
+                            "title" -> {
+                                title = part.value
+                            }
+                        }
+                    }
+
+                    is PartData.FileItem -> {
+                        fileName = part.originalFileName as String
+                        val fileBytes = part.streamProvider().readBytes()
+                        val pos: Int = fileName.lastIndexOf(".")
+                        name = fileName.substring(0, pos)
+                        extension = fileName.substring(pos)
+                        val date = System.currentTimeMillis() + 600000
+                        image = "uploads/${name + date + extension}"
+                        File("uploads/${name + date + extension}").writeBytes(fileBytes)
+                    }
+
+                    else -> {}
+                }
+            }
+
+            val isUpdated = postService.updatePost(postId, title, image)
+            if (isUpdated) {
+                call.respond(HttpStatusCode.Created, "Post Updated Successfully")
+            } else {
+                call.respond(HttpStatusCode.Conflict, "Post not updated")
+            }
+        }
+
+
         delete("/{id}") {
             val postId = call.parameters["id"]
 
