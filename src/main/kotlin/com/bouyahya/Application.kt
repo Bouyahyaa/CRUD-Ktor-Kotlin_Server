@@ -14,8 +14,7 @@ fun main(args: Array<String>): Unit =
 fun Application.module() {
 
     val databaseName = "KtorKotlinCrudDB"
-    val connectionString =
-        "mongodb+srv://bilelJs:Bilelbilel200@cluster0.0dt5b.mongodb.net/$databaseName?retryWrites=true&w=majority" // Replace This
+    val connectionString = "" // Replace This
     val db = KMongo.createClient(
         connectionString = connectionString
     ).coroutine.getDatabase(databaseName)
